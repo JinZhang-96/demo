@@ -136,19 +136,35 @@ public class Main {
     public Employee[] update(int no) {
         if (this.employees != null && this.employees.length != 0) {
             Employee employee = null;
+            int position = 0;
             for (int i = 0; i < employees.length; i++) {
                 if (employees[i] != null && employees[i].getNo() == no) {
                     employee = employees[i];
+                    position = i;
+                    break;
                 }
             }
             if (employee == null) {
                 System.out.println("没有查询到要修改的员工信息， 修改失败!");
             } else {
                 Scanner scanner = new Scanner(System.in);
-                System.out.println("请输入要修改的姓名, 以回车结束:");
-                String name = scanner.nextLine();
-                if (name != null && !name.equals("")) {
-                    employee.setName(name);
+                a:while(true) {
+                    System.out.println("请输入要修改的姓名, 以回车结束:");
+                    String name = scanner.nextLine();
+                    // 相同名字的员工不能成功修改
+                    for (int j = 0; j< employeeNum; j++) {
+                        if (j != position && employees[j] != null && employees[j].getName() != null && !employees[j].getName().equals("")) {
+                            if (employees[j].getName().equals(name)) {
+                                System.out.println("员工:" + employees[j].getName() + "已存在，不能修改为相同的名字！");
+                                break a;
+                            }
+                        }
+                    }
+
+                    if (name != null && !name.equals("")) {
+                        employee.setName(name);
+                    }
+                    break;
                 }
                 System.out.println("请输入要修改的年龄, 以回车结束:");
                 String age = scanner.nextLine();
